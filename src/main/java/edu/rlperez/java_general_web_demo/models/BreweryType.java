@@ -21,9 +21,7 @@ public class BreweryType {
 
     @Id
     private int id;
-
     private String type;
-
     @OneToMany
     private List<Brewery> breweries;
 }

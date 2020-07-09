@@ -20,11 +20,8 @@ public class Beer {
 
     @Id
     private long id;
-
     private String name;
-
     private String description;
-
     @ManyToOne
     private Brewery brewery;
 }
