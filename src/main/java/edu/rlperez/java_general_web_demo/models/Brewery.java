@@ -19,6 +19,7 @@ import java.util.List;
 public class Brewery {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private long externalId;
     private String name;
