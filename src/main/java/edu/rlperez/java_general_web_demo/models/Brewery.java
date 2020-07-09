@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.relational.core.mapping.Table;
-import org.springframework.stereotype.Indexed;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -22,7 +21,7 @@ public class Brewery {
     @Id
     private long id;
     private long externalId;
-    private String breweryName;
+    private String name;
     private String street;
     private String city;
     private String state;
