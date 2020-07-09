@@ -1,9 +1,15 @@
 package edu.rlperez.java_general_web_demo.repositories;
 
 import edu.rlperez.java_general_web_demo.models.BreweryType;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BreweryTypeRepository extends CrudRepository<BreweryType, Integer> {
+@CacheConfig(cacheNames = {"book_types"})
+public interface BreweryTypeRepository extends JpaRepository<BreweryType, Integer> {
+
+    @Cacheable
+    BreweryType findByType(String type);
 }
