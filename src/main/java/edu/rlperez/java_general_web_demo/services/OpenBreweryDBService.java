@@ -25,6 +25,8 @@ import java.time.temporal.ChronoField;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static java.net.http.HttpClient.*;
 
@@ -54,8 +56,8 @@ public class OpenBreweryDBService {
         this.breweryTypeRepository = breweryTypeRepository;
     }
 
-    // Run every day from the time the service starts.
-    @Scheduled(initialDelay = 0, fixedRate = 86400000)
+    // Run every week from the time the service starts.
+    @Scheduled(initialDelay = 0, fixedRate = 86400000L * 7)
     public void perform() {
         HttpClient client = getClient();
         int exceptionCount = 0;
@@ -68,7 +70,7 @@ public class OpenBreweryDBService {
                     .thenApply(HttpResponse::body)
                     .thenApply(this::handleBody));
 
-            if (requests.size() > 10) {
+            if (requests.size() >= 10) {
                 try {
                     if (reachedLastPage(requests)) break;
                     else requests.clear();
@@ -85,10 +87,10 @@ public class OpenBreweryDBService {
 
     private boolean handleBody(String requestBody) {
         BreweryResponse[] breweryResponses = new Gson().fromJson(requestBody, BreweryResponse[].class);
-        return Arrays.stream(breweryResponses).map(breweryResponse -> {
+        List<Brewery> breweries = Arrays.stream(breweryResponses).map(breweryResponse -> {
             Brewery brewery = breweryRepository.findByExternalId(breweryResponse.getId()).orElse(new Brewery());
             LocalDateTime responseUpdatedAt = LocalDateTime.parse(breweryResponse.getUpdatedAt(), DATE_TIME_FORMATTER);
-            if (brewery.getUpdatedAt().toEpochSecond(ZoneOffset.UTC) < responseUpdatedAt.toEpochSecond(ZoneOffset.UTC)) {
+            if (brewery.getUpdatedAt() == null || brewery.getUpdatedAt().toEpochSecond(ZoneOffset.UTC) < responseUpdatedAt.toEpochSecond(ZoneOffset.UTC)) {
                 // Source data updated so use that. A brewery likely updated information.
                 brewery.setExternalId(breweryResponse.getId());
                 brewery.setName(breweryResponse.getName());
@@ -112,11 +114,15 @@ public class OpenBreweryDBService {
                     brewery.setBreweryType(maybeType.get());
                 }
 
-                return breweryRepository.save(brewery);
+                return brewery;
             }
             return null;
-        }).filter(Objects::nonNull).count() >= 1;
+        }).filter(Objects::nonNull).collect(Collectors.toList());
 
+        breweries = StreamSupport.stream(breweryRepository.saveAll(breweries).spliterator(), false)
+                .collect(Collectors.toList());
+
+        return breweries.size() >= 1;
     }
 
     private boolean reachedLastPage(List<CompletableFuture<Boolean>> requests) throws InterruptedException, ExecutionException {
