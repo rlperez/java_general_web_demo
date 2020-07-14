@@ -6,10 +6,12 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
-@CacheConfig(cacheNames = {"book_types"})
+@CacheConfig(cacheNames = {"brewery_types"})
 public interface BreweryTypeRepository extends JpaRepository<BreweryType, Integer> {
 
     @Cacheable
-    BreweryType findByType(String type);
+    Optional<BreweryType> findByType(String type);
 }
