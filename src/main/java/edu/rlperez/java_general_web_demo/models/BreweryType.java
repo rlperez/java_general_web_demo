@@ -23,4 +23,8 @@ public class BreweryType {
     private String type;
     @OneToMany
     private List<Brewery> breweries;
+
+    public BreweryType(String type) {
+        this.type = type;
+    }
 }
