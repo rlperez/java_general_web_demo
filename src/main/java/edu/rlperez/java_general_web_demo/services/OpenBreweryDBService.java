@@ -94,13 +94,13 @@ public class OpenBreweryDBService {
                 // Source data updated so use that. A brewery likely updated information.
                 brewery.setExternalId(breweryResponse.getId());
                 brewery.setName(breweryResponse.getName());
-                brewery.setStreet(breweryResponse.getStreet());
-                brewery.setCity(breweryResponse.getCity());
-                brewery.setState(breweryResponse.getState());
-                brewery.setPostalCode(breweryResponse.getPostalCode());
-                brewery.setCountry(breweryResponse.getCountry());
-                brewery.setPhone(breweryResponse.getPhone());
-                brewery.setWebsiteUrl(breweryResponse.getWebsiteUrl());
+                brewery.setStreet(Optional.ofNullable(breweryResponse.getStreet()).orElse(""));
+                brewery.setCity(Optional.ofNullable(breweryResponse.getCity()).orElse(""));
+                brewery.setState(Optional.ofNullable(breweryResponse.getState()).orElse(""));
+                brewery.setPostalCode(Optional.ofNullable(breweryResponse.getPostalCode()).orElse(""));
+                brewery.setCountry(Optional.ofNullable(breweryResponse.getCountry()).orElse(""));
+                brewery.setPhone(Optional.ofNullable(breweryResponse.getPhone()).orElse(""));
+                brewery.setWebsiteUrl(Optional.ofNullable(breweryResponse.getWebsiteUrl()).orElse(""));
                 brewery.setUpdatedAt(LocalDateTime.now());
 
                 Optional<BreweryType> maybeType = breweryTypeRepository
