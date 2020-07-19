@@ -41,10 +41,10 @@
     <nav>
         <ul class="pagination justify-content-center">
             <li class="page-item {{#disablePrev}}disabled{{/disablePrev}}">
-                <a class="page-link" href="index/" aria-disabled="true">First</a>
+                <a class="page-link" href="index/" {{#disablePrev}}aria-disabled="true"{{/disablePrev}}>First</a>
             </li>
             <li class="page-item {{#disablePrev}}disabled{{/disablePrev}}">
-                <a class="page-link" href="index?page={{prev}}" aria-disabled="true">Previous</a>
+                <a class="page-link" href="index?page={{prev}}" {{#disablePrev}}aria-disabled="true"{{/disablePrev}}>Previous</a>
             </li>
             {{#padLeft}}
             <li class="page-item disabled">
@@ -62,10 +62,10 @@
             </li>
             {{/padRight}}
             <li class="page-item {{#disableNext}}disabled{{/disableNext}}">
-                <a class="page-link" href="index?page={{next}}">Next</a>
+                <a class="page-link" href="/index?page={{next}}">Next</a>
             </li>
             <li class="page-item {{#disableNext}}disabled{{/disableNext}}">
-                <a class="page-link" href="index?page={{totalPages}}">Last</a>
+                <a class="page-link" href="/index?page={{totalPages}}">Last</a>
             </li>
         </ul>
     </nav>
