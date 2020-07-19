@@ -41,7 +41,7 @@ public class MainController {
         model.addAttribute("padRight", pagesToShow[1] < breweryPage.getTotalPages() - 5);
 
         model.addAttribute("breweries", breweryService.findAll(pageNumber, ROW_PER_PAGE).getContent());
-
+        model.addAttribute("brewery-types", breweryService.findAllBreweryTypes());
         return "index";
     }
 
