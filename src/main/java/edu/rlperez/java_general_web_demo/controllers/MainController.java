@@ -27,7 +27,7 @@ public class MainController {
     public String index(Model model, @RequestParam(value = "page", defaultValue = "1") int pageNumber) {
         Page<Brewery> breweryPage = breweryService.findAll(1, ROW_PER_PAGE);
 
-        model.addAttribute("disablePrev", !breweryPage.hasPrevious());
+        model.addAttribute("disablePrev", breweryPage.hasPrevious());
         model.addAttribute("prev", pageNumber - 1);
         model.addAttribute("disableNext", !breweryPage.hasNext());
         model.addAttribute("next", pageNumber + 1);
