@@ -1,0 +1,57 @@
+
+<div class="container">
+    <nav>
+        <ul class="pagination justify-content-center">
+            <li class="page-item {{#disablePrev}}disabled{{/disablePrev}}">
+                <a class="page-link" href="/index" {{#disablePrev}}aria-disabled="true"{{/disablePrev}}>First</a>
+            </li>
+            <li class="page-item {{#disablePrev}}disabled{{/disablePrev}}">
+                <a class="page-link" href="/index?page={{prev}}" {{#disablePrev}}aria-disabled="true"{{/disablePrev}}>Previous</a>
+            </li>
+            {{#padLeft}}
+            <li class="page-item disabled">
+                <a class="page-link" href="/index" aria-disabled="true">...</a>
+            </li>
+            {{/padLeft}}
+            {{#pagesInNav}}
+            <li class="page-item page-item-{{.}}">
+                <a class="page-link" href="/index?page={{.}}">{{.}}</a>
+            </li>
+            {{/pagesInNav}}
+            {{#padRight}}
+            <li class="page-item disabled">
+                <a class="page-link" href="index/" aria-disabled="true">...</a>
+            </li>
+            {{/padRight}}
+            <li class="page-item {{#disableNext}}disabled{{/disableNext}}">
+                <a class="page-link" href="/index?page={{next}}">Next</a>
+            </li>
+            <li class="page-item {{#disableNext}}disabled{{/disableNext}}">
+                <a class="page-link" href="/index?page={{totalPages}}">Last</a>
+            </li>
+        </ul>
+    </nav>
+    <br/>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Type</th>
+            <th scope="col">City</th>
+            <th scope="col">State</th>
+            <th scope="col">Website</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#breweries}}
+        <tr>
+            <td><a href="/breweries/{{id}}">{{name}}</a></td>
+            <td>{{breweryType.type}}</td>
+            <td>{{city}}</td>
+            <td>{{state}}</td>
+            <td><a href="{{websiteUrl}}">{{websiteUrl}}</a></td>
+        </tr>
+        {{/breweries}}
+        </tbody>
+    </table>
+</div>
